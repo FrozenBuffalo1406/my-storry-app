@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/cardview_light_background">
+        <color android:color="@color/choco"/>
+        <shape android:innerRadius="20dp"/>
+    </item>
+</selector>
