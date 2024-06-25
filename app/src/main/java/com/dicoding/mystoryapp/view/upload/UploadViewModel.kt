@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dicoding.mystoryapp.data.api.ApiConfig
-import com.dicoding.mystoryapp.data.repository.UserRepository
+import com.dicoding.mystoryapp.repository.UserRepository
 import com.dicoding.mystoryapp.data.response.FileUploadResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,13 +34,11 @@ class UploadViewModel (private val repo: UserRepository): ViewModel() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                val storyResponse = repo.getStories()
             } catch (_: Exception) {
             } finally {
                 _isLoading.value = true
             }
         }
     }
-
 
 }

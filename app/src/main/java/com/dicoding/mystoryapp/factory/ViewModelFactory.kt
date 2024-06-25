@@ -1,13 +1,14 @@
-package com.dicoding.mystoryapp
+package com.dicoding.mystoryapp.factory
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dicoding.mystoryapp.data.repository.UserRepository
+import com.dicoding.mystoryapp.repository.UserRepository
 import com.dicoding.mystoryapp.view.main.MainViewModel
 import com.dicoding.mystoryapp.view.upload.UploadViewModel
 import com.dicoding.mystoryapp.di.InjectionModule
 import com.dicoding.mystoryapp.view.detail.DetailViewModel
+import com.dicoding.mystoryapp.view.maps.MapsViewModel
 
 class ViewModelFactory(private val repo: UserRepository): ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
@@ -21,6 +22,9 @@ class ViewModelFactory(private val repo: UserRepository): ViewModelProvider.NewI
             }
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
                 DetailViewModel(repo) as T
+            }
+            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
+                MapsViewModel(repo) as T
             }
             else -> throw IllegalArgumentException("Tidak menemukan ViewModel" + modelClass.name)
         }

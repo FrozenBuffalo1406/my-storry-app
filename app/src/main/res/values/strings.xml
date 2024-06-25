@@ -70,4 +70,11 @@
     <string name="gallery">Gallery</string>
     <string name="description">Description</string>
     <string name="upload">Upload</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="normal_style">Normal</string>
+    <string name="satellite_style">Satellite</string>
+    <string name="terrain_style">Terrain</string>
+    <string name="hybrid_style">Hybrid</string>
+    <string name="see_maps">See Maps</string>
+    <string name="refresh">Refresh</string>
 </resources>

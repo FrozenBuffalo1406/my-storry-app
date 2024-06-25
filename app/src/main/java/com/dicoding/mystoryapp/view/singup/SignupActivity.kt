@@ -15,12 +15,13 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresExtension
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.dicoding.mystoryapp.AuthViewModelFactory
+import com.dicoding.mystoryapp.factory.AuthViewModelFactory
 import com.dicoding.mystoryapp.data.api.AuthConfig
 import com.dicoding.mystoryapp.data.preference.UserPreference
-import com.dicoding.mystoryapp.data.repository.AuthRepository
+import com.dicoding.mystoryapp.repository.AuthRepository
 import com.dicoding.mystoryapp.databinding.ActivitySignUpBinding
 import com.dicoding.mystoryapp.view.costumView.Button
+import com.dicoding.mystoryapp.view.costumView.Button.Companion.STRING
 import com.dicoding.mystoryapp.view.costumView.EmailInput
 import com.dicoding.mystoryapp.view.costumView.PasswordInput
 import com.dicoding.mystoryapp.view.main.MainActivity
@@ -71,9 +72,9 @@ class SignupActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                setMyButtonEnable()
             }
             override fun afterTextChanged(s: Editable?) {
+                setMyButtonEnable()
             }
         })
 
@@ -137,6 +138,7 @@ class SignupActivity : AppCompatActivity() {
         val emailFilled = emailInput.text.toString().isNotEmpty()
         val passwordActivated = passwordInput.text.toString().isNotEmpty()
         myButton.isEnabled = emailFilled && passwordActivated
+        STRING = "Sign Up"
     }
     companion object {
         const val NAME = "UserPreference"

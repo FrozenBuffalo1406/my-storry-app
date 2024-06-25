@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dicoding.mystoryapp.data.repository.AuthRepository
+import com.dicoding.mystoryapp.repository.AuthRepository
 import com.dicoding.mystoryapp.data.response.ErrorResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
@@ -33,9 +33,9 @@ class SignupViewModel(private val repo: AuthRepository) : ViewModel() {
             try {
                 val response = repo.signup(name, email, password)
                 if (!response.error) {
-                    _signUpStatus.value = SignUpStatus.Success(response.message ?: "Account Created Successfully")
+                    _signUpStatus.value = SignUpStatus.Success(response.message)
                 } else {
-                    _signUpStatus.value = SignUpStatus.Error(response.message ?: "Failed to Create User Account")
+                    _signUpStatus.value = SignUpStatus.Error(response.message)
                 }
             } catch (e: HttpException) {
                 val jsonInString = e.response()?.errorBody()?.string()

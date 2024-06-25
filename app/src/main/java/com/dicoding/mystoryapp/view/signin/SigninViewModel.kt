@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dicoding.mystoryapp.data.model.User
-import com.dicoding.mystoryapp.data.repository.AuthRepository
+import com.dicoding.mystoryapp.repository.AuthRepository
 import com.dicoding.mystoryapp.data.response.SigninResponse
 import kotlinx.coroutines.launch
 

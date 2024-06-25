@@ -9,14 +9,17 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.mystoryapp.R
-import com.dicoding.mystoryapp.ViewModelFactory
+import com.dicoding.mystoryapp.adapter.LoadingStateAdapter
+import com.dicoding.mystoryapp.adapter.StoryAdapter
+import com.dicoding.mystoryapp.factory.ViewModelFactory
 import com.dicoding.mystoryapp.databinding.ActivityMainBinding
 import com.dicoding.mystoryapp.view.upload.UploadActivity
 import com.dicoding.mystoryapp.view.auth.AuthActivity
+import com.dicoding.mystoryapp.view.maps.MapsActivity
 
 class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel> {
@@ -27,6 +30,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.getSession().observe(this) { user ->
+            if (!user.isLogin) {
+                startActivity(Intent(this, AuthActivity::class.java))
+                finish()
+            }
+        }
+
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -34,24 +44,14 @@ class MainActivity : AppCompatActivity() {
         viewModel.isLoading.observe(this) {isLoading ->
             showLoading(isLoading)
         }
-        viewModel.getSession().observe(this) { user ->
-            if (!user.isLogin) {
-                startActivity(Intent(this, AuthActivity::class.java))
-                finish()
-            } else {
-                viewModel.getStories()
-            }
-        }
-
         setupView()
-        observeStories()
         showStory()
+
+
         binding.fabAddStory.setOnClickListener {
             startActivity(Intent(this, UploadActivity::class.java))
         }
-
     }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
@@ -63,6 +63,10 @@ class MainActivity : AppCompatActivity() {
                 viewModel.signout()
                 true
             }
+            R.id.btn_maps-> {
+                startActivity(Intent(this@MainActivity, MapsActivity::class.java))
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -70,7 +74,28 @@ class MainActivity : AppCompatActivity() {
     private fun showStory() {
         binding.rvStory.layoutManager = LinearLayoutManager(this)
         adapter = StoryAdapter()
-        binding.rvStory.adapter = adapter
+        binding.rvStory.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
+
+        viewModel.story.observe(this) {pagingData ->
+            adapter.submitData(lifecycle, pagingData)
+        }
+
+        adapter.addLoadStateListener { loadState ->
+            if (loadState.refresh is LoadState.Loading) {
+                showLoading(true)
+            } else {
+                showLoading(false)
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!adapter.snapshot().isEmpty()) adapter.refresh()
     }
 
 
@@ -85,29 +110,6 @@ class MainActivity : AppCompatActivity() {
             )
         }
     }
-
-    private fun observeStories() {
-        viewModel.stories.observe(this) {storyResponse ->
-            if (!storyResponse.error!!) {
-                adapter.submitList(storyResponse.listStory)
-            } else {
-                "Gagal mengambil  cerita".showDialog()
-            }
-        }
-    }
-
-    private fun String.showDialog() {
-        val builder = AlertDialog.Builder(this@MainActivity)
-        builder.setMessage(this)
-            .setTitle("Information")
-            .setPositiveButton("OK") { dialog, _ ->
-                dialog.dismiss()
-            }
-
-        val dialog = builder.create()
-        dialog.show()
-    }
-
     private fun showLoading(isLoading: Boolean){
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }

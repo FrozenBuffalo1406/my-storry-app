@@ -29,6 +29,9 @@ class Button : AppCompatButton {
         setTextColor(txtColor)
         textSize = 12f
         gravity = Gravity.CENTER
-        text = if(!isEnabled) "Isi Dulu" else ""
+        text = if(!isEnabled) "Isi Dulu" else STRING
+    }
+    companion object {
+        var STRING = "SIGN IN"
     }
 }

@@ -9,7 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.dicoding.mystoryapp.R
-import com.dicoding.mystoryapp.ViewModelFactory
+import com.dicoding.mystoryapp.factory.ViewModelFactory
 import com.dicoding.mystoryapp.data.response.Story
 import com.dicoding.mystoryapp.databinding.ActivityDetailBinding
 

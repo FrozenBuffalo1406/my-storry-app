@@ -1,4 +1,4 @@
-package com.dicoding.mystoryapp.data.repository
+package com.dicoding.mystoryapp.repository
 
 import com.dicoding.mystoryapp.data.api.AuthService
 import com.dicoding.mystoryapp.data.model.User

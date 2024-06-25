@@ -3,7 +3,7 @@ package com.dicoding.mystoryapp.di
 import android.content.Context
 import com.dicoding.mystoryapp.data.api.AuthConfig
 import com.dicoding.mystoryapp.data.preference.UserPreference
-import com.dicoding.mystoryapp.data.repository.AuthRepository
+import com.dicoding.mystoryapp.repository.AuthRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 

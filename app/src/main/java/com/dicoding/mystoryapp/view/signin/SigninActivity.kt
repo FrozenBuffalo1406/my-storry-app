@@ -14,12 +14,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.dicoding.mystoryapp.AuthViewModelFactory
+import com.dicoding.mystoryapp.factory.AuthViewModelFactory
 import com.dicoding.mystoryapp.databinding.ActivitySignInBinding
 import com.dicoding.mystoryapp.view.costumView.Button
+import com.dicoding.mystoryapp.view.costumView.Button.Companion.STRING
 import com.dicoding.mystoryapp.view.costumView.EmailInput
 import com.dicoding.mystoryapp.view.costumView.PasswordInput
 import com.dicoding.mystoryapp.view.main.MainActivity
+import com.dicoding.mystoryapp.view.singup.SignupActivity
 
 class SigninActivity : AppCompatActivity() {
     private val viewModel by viewModels<SigninViewModel> {
@@ -37,7 +39,7 @@ class SigninActivity : AppCompatActivity() {
         setupView()
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        myButton = binding.btnLogin
+        myButton = binding.btnSignin
         emailInput = binding.etEmail
         passwordInput = binding.etPassword
         setMyButtonEnable()
@@ -45,16 +47,20 @@ class SigninActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                setMyButtonEnable()
             }
             override fun afterTextChanged(s: Editable?) {
+                setMyButtonEnable()
             }
         })
 
-        binding.btnLogin.setOnClickListener {
+        binding.btnSignin.setOnClickListener {
             val email = emailInput.text.toString()
             val password = passwordInput.text.toString()
             viewModel.signin(email, password)
+        }
+        binding.tvRegister.setOnClickListener{
+            startActivity(Intent(this@SigninActivity, SignupActivity::class.java))
+            finish()
         }
 
         viewModel.isLoading.observe(this) { isLoading ->
@@ -121,5 +127,6 @@ class SigninActivity : AppCompatActivity() {
         val emailFilled = emailInput.text.toString().isNotEmpty()
         val passwordFilled = passwordInput.text.toString().isNotEmpty()
         myButton.isEnabled = emailFilled && passwordFilled
+        STRING = "Sign In"
     }
 }

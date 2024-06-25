@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
-import com.dicoding.mystoryapp.ViewModelFactory
+import com.dicoding.mystoryapp.factory.ViewModelFactory
 import com.dicoding.mystoryapp.data.preference.UserPreference
 import com.dicoding.mystoryapp.data.response.FileUploadResponse
 import com.dicoding.mystoryapp.databinding.ActivityUploadBinding
