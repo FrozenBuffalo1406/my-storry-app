@@ -30,7 +30,7 @@
         <!--put api keys in project gradle properties -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${API_KEYS}" />
+            android:value="AIzaSyAvTRkzc2-fSAACmLDKg5hQRUk9FHDTGF0" />
         <activity
             android:name=".view.maps.MapsActivity"
             android:exported="false"

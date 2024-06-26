@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:paddingHorizontal="24dp"
+    android:paddingHorizontal="48dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.signin.SigninActivity">
@@ -43,12 +43,13 @@
 
 
     <com.dicoding.mystoryapp.view.costumView.EmailInput
-        android:id="@+id/et_email"
+        android:id="@+id/ed_login_email"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
         android:inputType="textEmailAddress"
+        android:textColorHint="#546E7A"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tv_email"
         app:layout_constraintTop_toBottomOf="@id/tv_email"
         app:startIconDrawable="@drawable/ic_email" />
@@ -61,34 +62,31 @@
         android:layout_marginTop="8dp"
         android:text="@string/prompt_password"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_email" />
+        app:layout_constraintTop_toBottomOf="@+id/ed_login_email" />
 
     <com.dicoding.mystoryapp.view.costumView.PasswordInput
-        android:id="@+id/et_password"
+        android:id="@+id/ed_login_password"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
-        app:startIconDrawable="@drawable/ic_password"
-        app:layout_constraintTop_toBottomOf="@id/tv_password"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:inputType="textPassword"
-        >
-    </com.dicoding.mystoryapp.view.costumView.PasswordInput>
+        android:textColorHint="#546E7A"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_password"
+        app:startIconDrawable="@drawable/ic_password" />
 
     <com.dicoding.mystoryapp.view.costumView.Button
         android:id="@+id/btn_signin"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:layout_marginTop="16dp"
-        android:enabled="false"
-        android:text="@string/sign_in"
-        app:layout_constraintEnd_toEndOf="@id/et_password"
-        app:layout_constraintStart_toStartOf="@id/et_password"
-        app:layout_constraintTop_toBottomOf="@id/et_password" />
+        app:layout_constraintEnd_toEndOf="@id/ed_login_password"
+        app:layout_constraintStart_toStartOf="@id/ed_login_password"
+        app:layout_constraintTop_toBottomOf="@id/ed_login_password" />
 
     <TextView
-        android:id="@+id/tv_register"
+        android:id="@+id/tv_signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

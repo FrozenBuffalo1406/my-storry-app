@@ -5,8 +5,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
@@ -15,6 +13,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.mystoryapp.factory.AuthViewModelFactory
+import com.dicoding.mystoryapp.R
 import com.dicoding.mystoryapp.databinding.ActivitySignInBinding
 import com.dicoding.mystoryapp.view.costumView.Button
 import com.dicoding.mystoryapp.view.costumView.Button.Companion.STRING
@@ -39,26 +38,20 @@ class SigninActivity : AppCompatActivity() {
         setupView()
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setupView()
         myButton = binding.btnSignin
-        emailInput = binding.etEmail
-        passwordInput = binding.etPassword
-        setMyButtonEnable()
-        emailInput.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-            override fun afterTextChanged(s: Editable?) {
-                setMyButtonEnable()
-            }
-        })
+        emailInput = binding.edLoginEmail
+        passwordInput = binding.edLoginPassword
+        myButton.linkEditText(emailInput)
+        myButton.linkEditText(passwordInput)
+        STRING = getString(R.string.sign_in)
 
         binding.btnSignin.setOnClickListener {
             val email = emailInput.text.toString()
             val password = passwordInput.text.toString()
             viewModel.signin(email, password)
         }
-        binding.tvRegister.setOnClickListener{
+        binding.tvSignup.setOnClickListener {
             startActivity(Intent(this@SigninActivity, SignupActivity::class.java))
             finish()
         }
@@ -123,10 +116,5 @@ class SigninActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun setMyButtonEnable() {
-        val emailFilled = emailInput.text.toString().isNotEmpty()
-        val passwordFilled = passwordInput.text.toString().isNotEmpty()
-        myButton.isEnabled = emailFilled && passwordFilled
-        STRING = "Sign In"
-    }
+
 }

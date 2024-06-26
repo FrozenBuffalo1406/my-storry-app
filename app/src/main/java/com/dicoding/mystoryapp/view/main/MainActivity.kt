@@ -51,7 +51,9 @@ class MainActivity : AppCompatActivity() {
         binding.fabAddStory.setOnClickListener {
             startActivity(Intent(this, UploadActivity::class.java))
         }
+
     }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
