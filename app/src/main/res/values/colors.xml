@@ -11,5 +11,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="pink_500">#D81B60</color>
     <color name="pink_200">#FF8FAF</color>
+    <color name="colorPrimary">@color/light_choco</color>
+    <color name="colorPrimaryDark">@color/choco</color>
+    <color name="colorOnPrimary">@color/black</color>
+    <color name="colorOnPrimaryDark">@color/white</color>
+
 
 </resources>

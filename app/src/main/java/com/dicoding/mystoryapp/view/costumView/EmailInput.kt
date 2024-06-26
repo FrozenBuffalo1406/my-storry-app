@@ -25,12 +25,7 @@ class EmailInput @JvmOverloads constructor(
         addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.toString().isNotEmpty()) showClearButton() else hideClearButton()
-            }
-
-            override fun afterTextChanged(s: Editable?) {
                 s?.let {
                     error = if (Patterns.EMAIL_ADDRESS.matcher(it.toString()).matches()) {
                         null
@@ -38,6 +33,9 @@ class EmailInput @JvmOverloads constructor(
                         "Mohon masukkan alamat e-mail yang benar"
                     }
                 }
+            }
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString().isNotEmpty()) showClearButton() else hideClearButton()
             }
         })
     }

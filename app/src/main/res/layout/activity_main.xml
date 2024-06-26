@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,7 +28,7 @@
         android:id="@+id/fab_addStory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/material_dynamic_primary80"
+        android:backgroundTint="?colorPrimary"
         android:foregroundGravity="right"
         android:src="@drawable/ic_add_32"
         app:layout_constraintBottom_toBottomOf="parent"

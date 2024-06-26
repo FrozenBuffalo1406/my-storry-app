@@ -6,8 +6,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
@@ -16,14 +14,17 @@ import androidx.annotation.RequiresExtension
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.mystoryapp.AuthViewModelFactory
+import com.dicoding.mystoryapp.R
 import com.dicoding.mystoryapp.data.api.AuthConfig
 import com.dicoding.mystoryapp.data.preference.UserPreference
 import com.dicoding.mystoryapp.data.repository.AuthRepository
 import com.dicoding.mystoryapp.databinding.ActivitySignUpBinding
 import com.dicoding.mystoryapp.view.costumView.Button
+import com.dicoding.mystoryapp.view.costumView.Button.Companion.STRING
 import com.dicoding.mystoryapp.view.costumView.EmailInput
 import com.dicoding.mystoryapp.view.costumView.PasswordInput
 import com.dicoding.mystoryapp.view.main.MainActivity
+import com.dicoding.mystoryapp.view.signin.SigninActivity
 
 class SignupActivity : AppCompatActivity() {
     private val viewModel by viewModels<SignupViewModel> {
@@ -47,13 +48,14 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setupView()
+
         myButton = binding.btnSignup
         emailInput = binding.etEmail
         passwordInput = binding.etPassword
-        setMyButtonEnable()
-
+        myButton.linkEditText(emailInput)
+        myButton.linkEditText(passwordInput)
+        STRING = getString(R.string.sign_up)
 
         binding.btnSignup.setOnClickListener {
             val name = binding.etName.text.toString()
@@ -62,21 +64,13 @@ class SignupActivity : AppCompatActivity() {
 
             viewModel.signup(name, email, password)
         }
-
+        binding.tvSignin.setOnClickListener {
+            startActivity(Intent(this@SignupActivity, SigninActivity::class.java ))
+            finish()
+        }
         viewModel.isLoading.observe(this) { isLoading ->
             showLoading(isLoading)
         }
-
-        emailInput.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                setMyButtonEnable()
-            }
-            override fun afterTextChanged(s: Editable?) {
-            }
-        })
-
 
         viewModel.signUpStatus.observe(this) { signUpStatus ->
             when (signUpStatus) {
@@ -133,11 +127,6 @@ class SignupActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun setMyButtonEnable() {
-        val emailFilled = emailInput.text.toString().isNotEmpty()
-        val passwordActivated = passwordInput.text.toString().isNotEmpty()
-        myButton.isEnabled = emailFilled && passwordActivated
-    }
     companion object {
         const val NAME = "UserPreference"
         const val TOKEN = "token"

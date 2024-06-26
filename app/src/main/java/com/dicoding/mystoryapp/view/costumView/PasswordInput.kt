@@ -12,7 +12,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.dicoding.mystoryapp.R
 
-class PasswordInput @JvmOverloads constructor(
+class PasswordInput (
     context: Context, attrs: AttributeSet
 ) : AppCompatEditText(context,attrs), View.OnTouchListener {
 
@@ -25,10 +25,6 @@ class PasswordInput @JvmOverloads constructor(
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.toString().isNotEmpty()) showClearButton() else hideClearButton()
-            }
-
-            override fun afterTextChanged(s: Editable?) {
                 s?.let {
                     error = if(it.length < 8) {
                         context.getString(R.string.pw_len_error)
@@ -36,6 +32,10 @@ class PasswordInput @JvmOverloads constructor(
                         null
                     }
                 }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString().isNotEmpty()) showClearButton() else hideClearButton()
             }
         })
     }

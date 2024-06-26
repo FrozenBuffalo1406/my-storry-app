@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.mystoryapp.R
 import com.dicoding.mystoryapp.ViewModelFactory
 import com.dicoding.mystoryapp.databinding.ActivityMainBinding
-import com.dicoding.mystoryapp.view.upload.UploadActivity
 import com.dicoding.mystoryapp.view.auth.AuthActivity
+import com.dicoding.mystoryapp.view.upload.UploadActivity
 
 class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel> {
@@ -49,7 +49,6 @@ class MainActivity : AppCompatActivity() {
         binding.fabAddStory.setOnClickListener {
             startActivity(Intent(this, UploadActivity::class.java))
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
