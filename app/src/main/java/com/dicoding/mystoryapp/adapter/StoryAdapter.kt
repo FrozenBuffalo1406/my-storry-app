@@ -24,10 +24,15 @@ class StoryAdapter : PagingDataAdapter<ListStoryItem, StoryAdapter.StoryViewHold
     override fun onBindViewHolder(holder: StoryViewHolder, position: Int) {
         val story = getItem(position)
 
-        story?.let { holder.bind(it) }
+        if (story != null) {
+            holder.bind(story)
+        }
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailActivity::class.java)
-            intent.putExtra("id", story?.id)
+            if (story != null) {
+                intent.putExtra("id", story.id)
+            }
+
             val imagePair = android.util.Pair.create(holder.binding.ivStoryImage as View, "image")
             val titlePair = android.util.Pair.create(holder.binding.tvStoryTitle as View, "title")
             val descPair = android.util.Pair.create(holder.binding.tvStoryDesc as View, "desc")
@@ -42,6 +47,7 @@ class StoryAdapter : PagingDataAdapter<ListStoryItem, StoryAdapter.StoryViewHold
             holder.itemView.context.startActivity(intent, option)
         }
     }
+
 
     class StoryViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(story: ListStoryItem) {
@@ -64,6 +70,4 @@ class StoryAdapter : PagingDataAdapter<ListStoryItem, StoryAdapter.StoryViewHold
             }
         }
     }
-
-
 }

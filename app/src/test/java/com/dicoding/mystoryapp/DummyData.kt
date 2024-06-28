@@ -12,6 +12,9 @@ object DummyData {
                 "photoUrl $i",
                 "description $i",
                 "name $i",
+                "2021-09-14T06:51.15.000Z",
+                0.0,
+                0.0
             )
             items.add(story)
         }
