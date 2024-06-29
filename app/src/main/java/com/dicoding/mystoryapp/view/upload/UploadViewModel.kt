@@ -14,7 +14,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 class UploadViewModel (private val repo: UserRepository): ViewModel() {
-
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -34,6 +33,7 @@ class UploadViewModel (private val repo: UserRepository): ViewModel() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
+                val storyResponse = repo.getStories()
             } catch (_: Exception) {
             } finally {
                 _isLoading.value = true

@@ -76,9 +76,11 @@ class UploadActivity : AppCompatActivity() {
             requestPermissionLauncher.launch(REQUIRED_PERMISSION)
         }
 
-        binding.btnGallery.setOnClickListener { startGallery() }
-        binding.btnCamera.setOnClickListener { intentCamera() }
-        binding.btnUpload.setOnClickListener { upload() }
+        binding.apply {
+            btnGallery.setOnClickListener { startGallery() }
+            btnCamera.setOnClickListener { intentCamera() }
+            btnUpload.setOnClickListener { upload() }
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

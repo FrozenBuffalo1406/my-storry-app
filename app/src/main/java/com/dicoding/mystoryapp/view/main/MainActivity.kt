@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -51,7 +50,6 @@ class MainActivity : AppCompatActivity() {
         binding.fabAddStory.setOnClickListener {
             startActivity(Intent(this, UploadActivity::class.java))
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

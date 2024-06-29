@@ -44,7 +44,7 @@ class Button @JvmOverloads constructor(
         setTextColor(txtColor)
         textSize = 12f
         gravity = Gravity.CENTER
-        text= if (allFieldsFilled) STRING else "Isi Dulu"
+        text= if (allFieldsFilled && isEnabled) STRING else "Isi Dulu"
     }
 
     private fun updateButtonState() {

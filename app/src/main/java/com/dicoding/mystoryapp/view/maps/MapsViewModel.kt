@@ -19,8 +19,4 @@ class MapsViewModel (private val repo: UserRepository): ViewModel(){
             _stories.postValue(response)
         }
     }
-    fun setStoriesLocation() {
-
-    }
-
 }

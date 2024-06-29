@@ -47,6 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:textColorHint="#546E7A"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,6 +70,7 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
+        android:hint="@string/prompt_password"
         android:inputType="textPassword"
         android:textColorHint="#546E7A"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,6 +83,7 @@
         android:layout_width="0dp"
         android:layout_height="64dp"
         android:layout_marginTop="16dp"
+        android:contentDescription="@string/action_sign_in"
         app:layout_constraintEnd_toEndOf="@id/ed_login_password"
         app:layout_constraintStart_toStartOf="@id/ed_login_password"
         app:layout_constraintTop_toBottomOf="@id/ed_login_password" />

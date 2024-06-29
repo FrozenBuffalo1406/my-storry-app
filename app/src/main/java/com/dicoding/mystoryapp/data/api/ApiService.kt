@@ -19,10 +19,6 @@ interface ApiService {
         @Query("size") size: Int = 20
     ): StoryResponse
 
-    @GET("stories/{id}")
-    suspend fun getStoryDetail(
-        @Path("id") storyId: String
-    ) : DetailStoryResponse
 
     @Multipart
     @POST("stories")
@@ -30,6 +26,12 @@ interface ApiService {
         @Part file: MultipartBody.Part,
         @Part("description") description: RequestBody,
     ) : FileUploadResponse
+
+    @GET("stories/{id}")
+    suspend fun getStoryDetail(
+        @Path("id") storyId: String
+    ) : DetailStoryResponse
+
 
     @GET("stories")
     suspend fun getStoriesLocation(

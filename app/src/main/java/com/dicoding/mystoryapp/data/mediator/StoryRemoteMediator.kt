@@ -51,7 +51,7 @@ class StoryRemoteMediator(
             Log.d("StoryRemoteMediator", "Loading page: $page with pageSize: ${state.config.pageSize}")
             val responseData = apiService.getStories(page, state.config.pageSize).listStory
 
-            val endOfPaginationReached = responseData?.isEmpty()
+            val endOfPaginationReached = responseData.isEmpty()
 
             Log.d("StoryRemoteMediator", "Received response data: $responseData")
 
@@ -61,14 +61,14 @@ class StoryRemoteMediator(
                     storyDatabase.storyDao().clearAll()
                 }
                 val prevKey = if (page == 1) null else page - 1
-                val nextKey = if (endOfPaginationReached == true) null else page + 1
-                val keys = responseData?.map {
+                val nextKey = if (endOfPaginationReached) null else page + 1
+                val keys = responseData.map {
                     RemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
                 }
-                keys?.let { storyDatabase.remoteKeysDao().insertAll(it) }
-                responseData?.let { storyDatabase.storyDao().insertAll(it) }
+                storyDatabase.remoteKeysDao().insertAll(keys)
+                storyDatabase.storyDao().insertAll(responseData)
             }
-            return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached == true)
+            return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: Exception) {
             Log.e("StoryRemoteMediator", "Error loading data", exception)
             return MediatorResult.Error(exception)

@@ -3,12 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-feature android:name="android.hardware.camera" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
@@ -23,14 +21,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyStoryApp"
         tools:targetApi="31">
-        <activity
-            android:name=".adapter.LoadingStateAdapter"
-            android:exported="false"
-            android:theme="@style/Theme.MyStoryApp" />
+
         <!--put api keys in project gradle properties -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAvTRkzc2-fSAACmLDKg5hQRUk9FHDTGF0" />
+        <activity
+            android:name=".adapter.LoadingStateAdapter"
+            android:exported="false" />
         <activity
             android:name=".view.maps.MapsActivity"
             android:exported="false"

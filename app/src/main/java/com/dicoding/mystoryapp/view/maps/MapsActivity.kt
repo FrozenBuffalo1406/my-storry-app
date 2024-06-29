@@ -76,13 +76,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        mMap.uiSettings.isZoomControlsEnabled = true
-        mMap.uiSettings.isIndoorLevelPickerEnabled = true
-        mMap.uiSettings.isCompassEnabled = true
-        mMap.uiSettings.isMapToolbarEnabled = true
-
+        mMap.uiSettings.apply {
+            isZoomControlsEnabled = true
+            isIndoorLevelPickerEnabled = true
+            isCompassEnabled = true
+            isMapToolbarEnabled = true
+        }
         viewModel.stories.observe(this) { response ->
-            response.listStory?.forEach { story ->
+            response.listStory.forEach { story ->
                 val latLng = LatLng(story.lat!!, story.lon!!)
                 mMap.addMarker(
                     MarkerOptions()
@@ -92,7 +93,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 )
             }
 
-            response.listStory?.firstOrNull()?.let {
+            response.listStory.firstOrNull()?.let {
                 val location = LatLng(it.lat!!, it.lon!!)
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10f))
             }
