@@ -17,8 +17,6 @@ constraintlayout = "2.1.4"
 annotation = "1.8.0"
 lifecycleLivedataKtx = "2.8.2"
 lifecycleViewmodelKtx = "2.8.2"
-navigationFragmentKtx = "2.7.7"
-navigationUiKtx = "2.7.7"
 retrofit = "2.11.0"
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 playServicesMaps = "19.0.0"
@@ -50,8 +48,6 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
-androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
-androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
 mockito-inline = { module = "org.mockito:mockito-inline", version = "5.2.0" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "5.3.1" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }

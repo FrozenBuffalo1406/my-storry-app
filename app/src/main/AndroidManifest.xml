@@ -25,7 +25,7 @@
         <!--put api keys in project gradle properties -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAvTRkzc2-fSAACmLDKg5hQRUk9FHDTGF0" />
+            android:value="AIzaSyDvheJEmIrHP5nfgPAGPOj3Zh1mmGPuxME" />
         <activity
             android:name=".adapter.LoadingStateAdapter"
             android:exported="false" />

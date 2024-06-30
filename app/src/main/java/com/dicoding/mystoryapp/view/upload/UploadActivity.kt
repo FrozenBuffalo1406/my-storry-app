@@ -1,12 +1,13 @@
 package com.dicoding.mystoryapp.view.upload
 
 import android.Manifest
-import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -23,9 +24,11 @@ import com.dicoding.mystoryapp.databinding.ActivityUploadBinding
 import com.dicoding.mystoryapp.getImageUri
 import com.dicoding.mystoryapp.reduceFileImage
 import com.dicoding.mystoryapp.uriToFile
+import com.dicoding.mystoryapp.view.main.MainActivity
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -83,6 +86,17 @@ class UploadActivity : AppCompatActivity() {
             btnUpload.setOnClickListener { upload() }
         }
 
+        viewModel.uploadResult.observe(this) {response ->
+            if (!response.error) {
+                val intent = Intent(this, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -104,27 +118,14 @@ class UploadActivity : AppCompatActivity() {
             )
             lifecycleScope.launch {
                 try {
-                    val pref = UserPreference.getInstance(this@UploadActivity)
-                    val token = pref.getSession().first().token
-                    viewModel.saveImage(token, multiPartBody, requestBody)
-                    showDialog("Berhasil mengupload Gambar")
-                    clearInputField()
-                    finish()
+                    viewModel.uploadImage(multiPartBody, requestBody)
                 } catch (e: HttpException) {
-                    val errorBody = e.response()?.errorBody()?.string()
-                    val errorResult = Gson().fromJson(errorBody, FileUploadResponse::class.java)
-                    showDialog("Gagal mengupload gambar e: $errorResult" )
+                    showDialog("Gagal mengupload gambar" )
                     showLoading(false)
                 }
             }
         } ?: showDialog("Anda belum memasukkan gambar")
     }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getStories()
-    }
-
 
     private fun allPermissionsGranted() =
         ContextCompat.checkSelfPermission(
@@ -167,10 +168,6 @@ class UploadActivity : AppCompatActivity() {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-    private fun clearInputField(){
-        binding.etDesc.text = null
-        binding.ivPreview.setImageURI(null)
-    }
 
     companion object {
         private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA

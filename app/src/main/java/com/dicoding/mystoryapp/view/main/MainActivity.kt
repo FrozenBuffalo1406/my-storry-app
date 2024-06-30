@@ -1,6 +1,5 @@
 package com.dicoding.mystoryapp.view.main
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -20,10 +19,15 @@ import com.dicoding.mystoryapp.factory.ViewModelFactory
 import com.dicoding.mystoryapp.databinding.ActivityMainBinding
 import com.dicoding.mystoryapp.view.upload.UploadActivity
 import com.dicoding.mystoryapp.view.auth.AuthActivity
+import com.dicoding.mystoryapp.view.detail.DetailActivity
 import com.dicoding.mystoryapp.view.maps.MapsActivity
+import com.dicoding.mystoryapp.view.upload.UploadViewModel
 
 class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
+    private val uploadViewModel by viewModels<UploadViewModel> {
         ViewModelFactory.getInstance(this)
     }
     private lateinit var adapter: StoryAdapter
@@ -40,16 +44,25 @@ class MainActivity : AppCompatActivity() {
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
                 startActivity(Intent(this, AuthActivity::class.java))
+                uploadViewModel.fetchStories()
                 finish()
             }
         }
 
         setupView()
         showStory()
-
         binding.fabAddStory.setOnClickListener {
             startActivity(Intent(this, UploadActivity::class.java))
         }
+        uploadViewModel.isLoading.observe(this){
+            showLoading(it)
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        uploadViewModel.fetchStories()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -77,7 +90,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun showStory() {
         binding.rvStory.layoutManager = LinearLayoutManager(this)
-        adapter = StoryAdapter()
+        adapter = StoryAdapter{ story ->
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra(DetailActivity.EXTRA_STORY, story)
+            startActivity(intent)
+
+        }
         binding.rvStory.adapter = adapter.withLoadStateFooter(
             footer = LoadingStateAdapter {
                 adapter.retry()
@@ -89,6 +107,9 @@ class MainActivity : AppCompatActivity() {
             } else {
                 showLoading(false)
             }
+        }
+        uploadViewModel.storiess.observe(this) {
+            adapter.submitData(lifecycle,it)
         }
     }
 

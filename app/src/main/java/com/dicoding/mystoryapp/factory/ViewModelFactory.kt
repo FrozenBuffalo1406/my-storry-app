@@ -32,6 +32,8 @@ class ViewModelFactory(private val repo: UserRepository): ViewModelProvider.NewI
 
     companion object {
         @JvmStatic
-        fun getInstance(context : Context) = ViewModelFactory(InjectionModule.provideRepository(context))
+        fun getInstance(context : Context) : ViewModelFactory {
+            return ViewModelFactory(InjectionModule.provideRepository(context))
+        }
     }
 }

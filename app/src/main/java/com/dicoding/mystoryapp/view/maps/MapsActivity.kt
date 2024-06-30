@@ -84,7 +84,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         viewModel.stories.observe(this) { response ->
             response.listStory?.forEach { story ->
-                val latLng = LatLng(story.lat!!, story.lon!!)
+                val latLng = LatLng(story?.lat!!, story.lon!!)
                 mMap.addMarker(
                     MarkerOptions()
                         .position(latLng)

@@ -7,18 +7,19 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.dicoding.mystoryapp.data.api.ApiService
-import com.dicoding.mystoryapp.data.db.StoryDatabase
-import com.dicoding.mystoryapp.data.mediator.StoryRemoteMediator
+import com.dicoding.mystoryapp.data.paging.StoryPagingSource
 import com.dicoding.mystoryapp.data.preference.UserPreference
 import com.dicoding.mystoryapp.data.response.DetailStoryResponse
+import com.dicoding.mystoryapp.data.response.FileUploadResponse
 import com.dicoding.mystoryapp.data.response.ListStoryItem
 import com.dicoding.mystoryapp.data.response.StoryResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 
 class UserRepository(
     private val apiService: ApiService,
-    private val userPreference: UserPreference,
-    private val storyDatabase: StoryDatabase
+    private val userPreference: UserPreference
 ) {
 
     @OptIn(ExperimentalPagingApi::class)
@@ -27,11 +28,21 @@ class UserRepository(
             config = PagingConfig(
                 pageSize = 5
             ),
-            remoteMediator = StoryRemoteMediator(storyDatabase, apiService),
             pagingSourceFactory = {
-                storyDatabase.storyDao().getAllStories()
+                StoryPagingSource(apiService)
             }
         ).liveData
+    }
+
+    suspend fun uploadImage(
+        file: MultipartBody.Part,
+        description: RequestBody
+    ): FileUploadResponse{
+        return apiService.uploadImage(file, description)
+    }
+
+    suspend fun storyRepo(): StoryResponse {
+        return apiService.getStories()
     }
 
     fun getSession() = userPreference.getSession()
@@ -47,6 +58,9 @@ class UserRepository(
     suspend fun signout() = userPreference.logout()
 
     companion object{
-        fun getInstance(apiService: ApiService, userPreference: UserPreference, storyDatabase: StoryDatabase) = UserRepository(apiService, userPreference, storyDatabase)
+        @JvmStatic
+        fun getInstance(apiService: ApiService, userPreference: UserPreference) : UserRepository {
+           return UserRepository(apiService, userPreference)
+        }
     }
 }

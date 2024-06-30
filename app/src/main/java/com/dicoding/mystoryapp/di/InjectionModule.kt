@@ -2,7 +2,6 @@ package com.dicoding.mystoryapp.di
 
 import android.content.Context
 import com.dicoding.mystoryapp.data.api.ApiConfig
-import com.dicoding.mystoryapp.data.db.StoryDatabase
 import com.dicoding.mystoryapp.data.preference.UserPreference
 import com.dicoding.mystoryapp.repository.UserRepository
 import kotlinx.coroutines.flow.first
@@ -13,7 +12,6 @@ object InjectionModule {
         val pref = UserPreference.getInstance(context)
         val user = runBlocking { pref.getSession().first() }
         val apiService = ApiConfig.getApiService(user.token)
-        val storyDatabase = StoryDatabase.getDatabase(context)
-        return UserRepository(apiService,pref, storyDatabase)
+        return UserRepository(apiService,pref)
     }
 }
