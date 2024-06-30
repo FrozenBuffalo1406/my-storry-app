@@ -1,5 +1,6 @@
 package com.dicoding.mystoryapp.view.main
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -30,6 +31,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        viewModel.isLoading.observe(this) {isLoading ->
+            showLoading(isLoading)
+        }
+
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
                 startActivity(Intent(this, AuthActivity::class.java))
@@ -37,15 +44,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        viewModel.isLoading.observe(this) {isLoading ->
-            showLoading(isLoading)
-        }
         setupView()
         showStory()
-
 
         binding.fabAddStory.setOnClickListener {
             startActivity(Intent(this, UploadActivity::class.java))
@@ -71,6 +71,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun showLoading(isLoading: Boolean){
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
     private fun showStory() {
         binding.rvStory.layoutManager = LinearLayoutManager(this)
         adapter = StoryAdapter()
@@ -79,11 +83,6 @@ class MainActivity : AppCompatActivity() {
                 adapter.retry()
             }
         )
-
-        viewModel.story.observe(this) {pagingData ->
-            adapter.submitData(lifecycle, pagingData)
-        }
-
         adapter.addLoadStateListener { loadState ->
             if (loadState.refresh is LoadState.Loading) {
                 showLoading(true)
@@ -92,7 +91,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 
     private fun setupView() {
         @Suppress("DEPRECATION")
@@ -105,7 +103,6 @@ class MainActivity : AppCompatActivity() {
             )
         }
     }
-    private fun showLoading(isLoading: Boolean){
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.dicoding.mystoryapp.view.upload
 
 import android.Manifest
+import android.app.Activity
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -149,15 +150,17 @@ class UploadActivity : AppCompatActivity() {
     }
 
     private fun showDialog(message: String) {
-        val builder = AlertDialog.Builder(this)
-        builder.setMessage(message)
-            .setTitle("Information")
-            .setPositiveButton("OK") { dialog, _ ->
-                dialog.dismiss()
-            }
+        if(!isFinishing){
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage(message)
+                .setTitle("Information")
+                .setPositiveButton("OK") { dialog, _ ->
+                    dialog.dismiss()
+                }
 
-        val dialog = builder.create()
-        dialog.show()
+            val dialog = builder.create()
+            dialog.show()
+        }
     }
 
     private fun showLoading(isLoading: Boolean) {

@@ -8,6 +8,10 @@ import com.dicoding.mystoryapp.data.response.ListStoryItem
 
 @Database(entities = [ListStoryItem::class, RemoteKeys::class],
     version = 1,
+//    autoMigrations =
+//    [
+//    AutoMigration(from = 1, to = 2),
+//    ],
     exportSchema = false
 ) abstract class StoryDatabase: RoomDatabase() {
 

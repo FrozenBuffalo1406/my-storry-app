@@ -83,7 +83,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             isMapToolbarEnabled = true
         }
         viewModel.stories.observe(this) { response ->
-            response.listStory.forEach { story ->
+            response.listStory?.forEach { story ->
                 val latLng = LatLng(story.lat!!, story.lon!!)
                 mMap.addMarker(
                     MarkerOptions()
@@ -93,7 +93,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 )
             }
 
-            response.listStory.firstOrNull()?.let {
+            response.listStory?.firstOrNull()?.let {
                 val location = LatLng(it.lat!!, it.lon!!)
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10f))
             }

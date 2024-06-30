@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(private val repo: UserRepository) : ViewModel() {
 
+
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading : LiveData<Boolean> = _isLoading
 
