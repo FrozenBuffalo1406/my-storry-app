@@ -13,7 +13,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.dicoding.mystoryapp.R
 
-class EmailInput (
+class EmailInput @JvmOverloads constructor(
     context: Context, attrs: AttributeSet
 ): AppCompatEditText(context, attrs), View.OnTouchListener {
 

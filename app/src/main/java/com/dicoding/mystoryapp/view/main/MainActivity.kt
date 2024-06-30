@@ -93,11 +93,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (!adapter.snapshot().isEmpty()) adapter.refresh()
-    }
-
 
     private fun setupView() {
         @Suppress("DEPRECATION")
