@@ -18,7 +18,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.mystoryapp.factory.ViewModelFactory
-import com.dicoding.mystoryapp.data.preference.UserPreference
 import com.dicoding.mystoryapp.data.response.FileUploadResponse
 import com.dicoding.mystoryapp.databinding.ActivityUploadBinding
 import com.dicoding.mystoryapp.getImageUri
@@ -26,9 +25,7 @@ import com.dicoding.mystoryapp.reduceFileImage
 import com.dicoding.mystoryapp.uriToFile
 import com.dicoding.mystoryapp.view.main.MainActivity
 import com.google.gson.Gson
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -83,7 +80,8 @@ class UploadActivity : AppCompatActivity() {
         binding.apply {
             btnGallery.setOnClickListener { startGallery() }
             btnCamera.setOnClickListener { intentCamera() }
-            btnUpload.setOnClickListener { upload() }
+            btnUpload.setOnClickListener { upload()
+            }
         }
 
         viewModel.uploadResult.observe(this) {response ->
@@ -105,9 +103,18 @@ class UploadActivity : AppCompatActivity() {
     }
 
     private fun upload() {
+        if (imageUri == null) {
+            showDialog("Anda belum memilih gambar")
+            return
+        }
+
+        val desc = binding.etDesc.text.toString()
+        if (desc.isBlank()) {
+            showDialog("Anda belum mengisi deskripsi")
+            return
+        }
         imageUri?.let { uri->
             val imageFile = uriToFile(uri, this).reduceFileImage()
-            val desc = binding.etDesc.text.toString()
             showLoading(true)
             val requestBody = desc.toRequestBody("text/plain".toMediaType())
             val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
@@ -119,12 +126,15 @@ class UploadActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 try {
                     viewModel.uploadImage(multiPartBody, requestBody)
+                    showDialog("Berhasil mengupload gambar")
                 } catch (e: HttpException) {
-                    showDialog("Gagal mengupload gambar" )
+                    val errorBody = e.response()?.errorBody()?.string()
+                    val errorResult = Gson().fromJson(errorBody, FileUploadResponse::class.java)
+                    showDialog("Gagal mengupload gambar e: $errorResult" )
                     showLoading(false)
                 }
             }
-        } ?: showDialog("Anda belum memasukkan gambar")
+        } ?: showDialog("Anda belum memilih gambar")
     }
 
     private fun allPermissionsGranted() =
