@@ -19,6 +19,7 @@ class DetailActivity : AppCompatActivity() {
         val story: ListStoryItem? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra(EXTRA_STORY, ListStoryItem::class.java)
         } else {
+            @Suppress("DEPRECATION")
             intent.getParcelableExtra(EXTRA_STORY)
         }
 

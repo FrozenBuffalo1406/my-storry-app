@@ -19,6 +19,7 @@ android:background="@drawable/card_corner"
 
         <ImageView
             android:id="@+id/iv_story_image"
+            android:transitionName="image"
             android:layout_width="match_parent"
             android:scaleType="center"
             android:layout_height="200dp"
@@ -30,6 +31,7 @@ android:background="@drawable/card_corner"
 
         <TextView
             android:id="@+id/tv_story_title"
+            android:transitionName="title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="24sp"
@@ -42,6 +44,7 @@ android:background="@drawable/card_corner"
 
         <TextView
             android:id="@+id/tv_story_desc"
+            android:transitionName="desc"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:textSize="16sp"

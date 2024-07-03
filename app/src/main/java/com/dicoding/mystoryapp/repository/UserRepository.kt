@@ -1,7 +1,6 @@
 package com.dicoding.mystoryapp.repository
 
 import androidx.lifecycle.LiveData
-import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -21,8 +20,6 @@ class UserRepository(
     private val apiService: ApiService,
     private val userPreference: UserPreference
 ) {
-
-    @OptIn(ExperimentalPagingApi::class)
     fun getStories(): LiveData<PagingData<ListStoryItem>> {
         return Pager(
             config = PagingConfig(

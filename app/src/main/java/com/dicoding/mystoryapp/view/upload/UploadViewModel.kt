@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.dicoding.mystoryapp.data.api.ApiConfig
 import com.dicoding.mystoryapp.repository.UserRepository
 import com.dicoding.mystoryapp.data.response.FileUploadResponse
 import com.dicoding.mystoryapp.data.response.ListStoryItem
@@ -25,8 +24,6 @@ class UploadViewModel(private val repo: UserRepository) : ViewModel() {
         repo.getStories().cachedIn(viewModelScope)
 
     private val _stories = MutableLiveData<StoryResponse>()
-    val stories: LiveData<StoryResponse> = _stories
-
     val uploadResult = MutableLiveData<FileUploadResponse>()
 
     fun uploadImage(multipartBody: MultipartBody.Part, description: RequestBody) {
